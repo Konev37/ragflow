@@ -32,6 +32,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
   opensearch01:
     profiles:
@@ -68,6 +70,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
   infinity:
     profiles:
@@ -95,6 +99,8 @@ services:
       timeout: 10s
       retries: 120
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
   oceanbase:
     profiles:
@@ -120,6 +126,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
   seekdb:
     profiles:
@@ -144,6 +152,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
   sandbox-executor-manager:
     profiles:
@@ -159,6 +169,7 @@ services:
       - ragflow
     security_opt:
       - no-new-privileges:true
+      - apparmor:unconfined
     environment:
       - SANDBOX_EXECUTOR_MANAGER_POOL_SIZE=${SANDBOX_EXECUTOR_MANAGER_POOL_SIZE:-3}
       - SANDBOX_BASE_PYTHON_IMAGE=${SANDBOX_BASE_PYTHON_IMAGE:-infiniflow/sandbox-base-python:latest}
@@ -200,6 +211,8 @@ services:
       timeout: 10s
       retries: 120
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
   minio:
     image: pgsty/minio:RELEASE.2026-03-25T00-00-00Z
@@ -216,6 +229,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 10s
@@ -234,6 +249,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
     healthcheck:
       test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
@@ -253,6 +270,8 @@ services:
       - ragflow
     command: ["--model-id", "/data/${TEI_MODEL}", "--auto-truncate"]
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
 
   tei-gpu:
@@ -274,6 +293,8 @@ services:
               count: all
               capabilities: [gpu]
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
 
   kibana:
@@ -296,6 +317,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
 
 
 volumes:

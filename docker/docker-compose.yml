@@ -47,6 +47,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
     # https://docs.docker.com/engine/daemon/prometheus/#create-a-prometheus-configuration
     # If you use Docker Desktop, the --add-host flag is optional. This flag ensures that the host's internal IP is exposed to the Prometheus container.
     extra_hosts:
@@ -95,6 +97,8 @@ services:
     networks:
       - ragflow
     restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
     # https://docs.docker.com/engine/daemon/prometheus/#create-a-prometheus-configuration
     # If you use Docker Desktop, the --add-host flag is optional. This flag ensures that the host's internal IP is exposed to the Prometheus container.
     extra_hosts:
