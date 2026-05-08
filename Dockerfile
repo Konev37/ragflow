@@ -154,13 +154,18 @@ RUN --mount=type=cache,id=ragflow_uv,target=/root/.cache/uv,sharing=locked \
 COPY web web
 COPY docs docs
 RUN --mount=type=cache,id=ragflow_npm,target=/root/.npm,sharing=locked \
-    cd web && NODE_OPTIONS="--max-old-space-size=8192" npm install && \
+    cd web && NODE_OPTIONS="--max-old-space-size=8192" npm install --ignore-scripts && \
     NODE_OPTIONS="--max-old-space-size=8192" VITE_BUILD_SOURCEMAP=false VITE_MINIFY=esbuild npm run build
 
-COPY .git /ragflow/.git
+# Use wildcard to make .git copy optional
+COPY .gi[t] /ragflow/.git
 
-RUN version_info=$(git describe --tags --match=v* --first-parent --always); \
-    version_info="$version_info"; \
+ARG RAGFLOW_VERSION=local
+RUN if [ -d .git ]; then \
+        version_info=$(git describe --tags --match=v* --first-parent --always); \
+    else \
+        version_info=$RAGFLOW_VERSION; \
+    fi; \
     echo "RAGFlow version: $version_info"; \
     echo $version_info > /ragflow/VERSION
 
