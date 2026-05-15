@@ -9,31 +9,99 @@ sidebar_custom_props: {
 
 Key features, improvements and bug fixes in the latest releases.
 
+## v0.25.4
+
+Released on May 14, 2026
+
+### New features
+
+- Adds a generic, configuration-driven RESTful API data source connector.
+
+### Improvements
+
+- Agent tag management with filtering and sorting.
+- Widget customization and persistence.
+
+### Model support
+
+- Adds gpt-5.4-mini and gpt-5.4-nano to the OpenAI model list
+
+### Bug fixes
+
+Fixed dataset document download route.
+
+## v0.25.3
+
+Released on May 13, 2026.
+
+### New features
+
+- Enables assigning specific roles like content, metadata, and primary key, to table columns. [#13710](https://github.com/infiniflow/ragflow/pull/13710)
+
+### Improvements
+
+- S3 connector: Implements ETag-based incremental synchronization for S3 data sources, drastically reduces sync time and AWS egress costs for users with massive-volumn S3-based datasets. [#14628](https://github.com/infiniflow/ragflow/issues/14628)[#14677](https://github.com/infiniflow/ragflow/pull/14677)
+- API refactoring and security
+  - Continues the transition of web APIs to RESTful conventions, ensuring backward compatibility for all legacy endpoints.
+  - Binds the `user_id` in `POST /api/v1/messages` to the authenticated JWT principal. [#14745](https://github.com/infiniflow/ragflow/pull/14745)
+  - Secures the sandbox executor against dynamic and indirect code execution bypasses. [#14690](https://github.com/infiniflow/ragflow/pull/14690)
+  - Enforces HTTP request timeouts across the LLM integration layer. [#14313](https://github.com/infiniflow/ragflow/pull/14313)
+- Refactors thread pool lifecycle management in `file_service.py` and `task_executor.py` for more efficient, lightweight resource handling. [#14668](https://github.com/infiniflow/ragflow/pull/14668)
+- Agent: Enables the **Code** component to output and display file-based attachments, such as charts and images, directly in the chat. [#14787](https://github.com/infiniflow/ragflow/pull/14787)
+- Reduces ingestion server boot time. [#14894](https://github.com/infiniflow/ragflow/pull/14894)
+
+### Bug fixes
+
+- Images in multi-sheet Excel workbooks were not scoped by sheet, causing images to be incorrectly attributed across different worksheets. [#14120](https://github.com/infiniflow/ragflow/pull/14120)
+- Agent: Splits the **Message** component output into distinct 'waiting' and 'message' states when nested inside an **Iteration** component alongside a **Wait** component. [#14839](https://github.com/infiniflow/ragflow/pull/14839)
+- Agent: The **Iteration** component failed to correctly pass array elements to its child components due to a naming mismatch between the expected IterationItem alias and the runtime item variable. [#14146](https://github.com/infiniflow/ragflow/pull/14146)
+- Agent: Template strings in tool-type components like **Email** and **Invoke** failed to interpolate; `{{variable}}` placeholders were passed through as raw text. [#14601](https://github.com/infiniflow/ragflow/pull/14601)
+- Volcengine (Doubao/Ark) endpoints were not visible in the provider list. [#14702](https://github.com/infiniflow/ragflow/pull/14702)
+
+## v0.25.2
+
+Released on May 11, 2026.
+
+### Improvements
+
+- API refactoring and unification: Continues the transition of web APIs to RESTful conventions, ensuring backward compatibility for all legacy endpoints.
+
+### Data source
+
+- Introduces a lightweight snapshot mechanism for synchronizing deleted files across eight data sources—including Moodle, DingTalk AI Table, and RSS—ensuring a faithful reflection of all remote data sources. [#14362](https://github.com/infiniflow/ragflow/issues/14362)[#14499](https://github.com/infiniflow/ragflow/pull/14499)
+
+### Bug fixes
+
+- Metadata visibility issues during v0.24.0 to v0.25.0 upgrades.
+- Duplicate chat output.
+- Metadata filtering was handled in-memory instead of leveraging Elasticsearch, incurring performance bottlenecks. [#14576](https://github.com/infiniflow/ragflow/pull/14576)
+
 ## v0.25.1
 
 Released on April 29, 2026.
 
 ### Improvements
 
-- API refactoring and unification: Migrated web apis to RESTful architecture across all endpoints. unified document creation and indexing flows while maintaining backward compatibility for legacy apis.
-- Parsing optimizations: Integrated opendataloader pdf backend and improved docling routing. implemented lazy loading and chunking for large pdfs to reduce memory usage.
-- Introduced lazy loading and chunked parsing for large pdfs to significantly lower the memory footprint.
+- API refactoring and unification: Standardizes web APIs to RESTful conventions across all endpoints, unifying document creation and indexing flows while maintaining backward compatibility.
+- Parsing optimizations: Adds [OpenDataLoader](https://github.com/opendataloader-project/opendataloader-pdf) PDF parser backend. [#14097](https://github.com/infiniflow/ragflow/pull/14097)
+- Introduces lazy loading and chunked parsing for large PDFs (&gt;50 pages), significantly reducing memory footprint. [#14385](https://github.com/infiniflow/ragflow/pull/14385)
 
 ### Data source
 
-Added bitbucket, gmail, google drive, and airtable with automated file deletion synchronization.
+Enables synchronizing deleted files in Bitbucket, Gmail, Google Drive, and Airtable. [#14362](https://github.com/infiniflow/ragflow/issues/14362)
 
 ### Model support
 
 - DeepSeek v4
 
-### Model provider
+### Model providers
 
 - UCloud
 
 ### Bug fixes
 
-Resolved metadata visibility issues during v0.24.0 to v0.25.0 upgrades and fixed duplicate chat output.
+- Metadata visibility issues during v0.24.0 to v0.25.0 upgrades.
+- Duplicate chat output.
 
 ## v0.25.0
 
